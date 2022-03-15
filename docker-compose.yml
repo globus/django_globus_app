@@ -1,0 +1,32 @@
+version: '3.9'
+
+volumes:
+  postgres_data: {}
+
+services:
+  database.django_globus_app:
+    image: postgres:9
+    ports: 
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+  backend.django_globus_app:
+    build: .
+    image: django_globus_app
+    tty: true
+    environment:
+        # Flip to 'production' for AWS deployments
+      - ENVIRONMENT=local
+      - DJANGO_SETTINGS_MODULE=django_globus_app.settings.base
+      - PYTHONBUFFERED=1
+    ports:
+      - "80:80"
+    volumes:
+      - .:/backend
+    depends_on:
+      - database.django_globus_app
