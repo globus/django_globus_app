@@ -21,7 +21,7 @@ services:
     tty: true
     environment:
         # Flip to 'production' for AWS deployments
-      - ENVIRONMENT=local
+      - ENVIRONMENT=production
       - DJANGO_SETTINGS_MODULE=django_globus_app.settings.base
       - PYTHONBUFFERED=1
     ports:

@@ -1,7 +1,7 @@
 FROM python:3.9
 
 # Flip to 'production' for AWS deployments
-ENV ENVIRONMENT=local 
+ENV ENVIRONMENT=production 
 
 ENV DJANGO_SETTINGS_MODULE=django_globus_app.settings.base
 ENV PYTHONBUFFERED=1

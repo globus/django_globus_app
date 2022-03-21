@@ -2,7 +2,7 @@ import datetime
 
 
 def title(result):
-    return result[0]['dc']['titles'][0]['title']
+    return result[0]["dc"]["titles"][0]["title"]
 
 
 def formatted_search_results(result):
@@ -12,16 +12,16 @@ def formatted_search_results(result):
     entry = result[0]
     return [
         {
-            'title': 'Publisher',
-            'value': entry['dc']['publisher'],
+            "title": "Publisher",
+            "value": entry["dc"]["publisher"],
         },
         {
-            'title': 'Format',
-            'value': entry['files'][0]['mime_type'],
+            "title": "Format",
+            "value": entry["files"][0]["mime_type"],
         },
         {
-            'title': 'Size (bytes)',
-            'value': entry['files'][0]['length'],
+            "title": "Size (bytes)",
+            "value": entry["files"][0]["length"],
         },
     ]
 
@@ -31,34 +31,35 @@ def formatted_files(result):
     return [
         [
             {
-                'title': 'Filename',
-                'value': file_obj['filename'],
+                "title": "Filename",
+                "value": file_obj["filename"],
             },
             {
-                'title': 'Format',
-                'value': file_obj['mime_type'],
+                "title": "Format",
+                "value": file_obj["mime_type"],
             },
             {
-                'title': 'Size',
-                'value': file_obj['length'],
+                "title": "Size",
+                "value": file_obj["length"],
             },
             {
-                'title': 'MD5',
-                'value': file_obj['md5'],
+                "title": "MD5",
+                "value": file_obj["md5"],
             },
             {
-                'title': 'SHA256',
-                'value': file_obj['sha256'],
+                "title": "SHA256",
+                "value": file_obj["sha256"],
             },
-        ] for file_obj in entry['files']
+        ]
+        for file_obj in entry["files"]
     ]
 
 
 def dc(result):
-    for date in result[0]['dc']['dates']:
-        date['date'] = datetime.datetime.fromisoformat(date['date'])
-    return result[0]['dc']
+    for date in result[0]["dc"]["dates"]:
+        date["date"] = datetime.datetime.fromisoformat(date["date"])
+    return result[0]["dc"]
 
 
 def files(result):
-    return result[0]['files']
+    return result[0]["files"]
