@@ -9,87 +9,53 @@ def get_rfm(search_result):
 
 
 SEARCH_INDEXES = {
-    "my-search-index": {
-        "uuid": "4dcf50b9-14e7-4994-be36-6c6b11a73cd2",
-        "name": "My Search Index",
+    "terrafusion": {
+        "uuid": "25ad7f95-1c21-4f8e-a478-ebdfbdfba7ec",
+        "name": "OSN",
+        "template_override_dir": "osn",
         "fields": [
-            ("dc", fields.dc),
+            "dc",
+            "files",
+            "project_metadata",
+            ("date", fields.date),
             ("title", fields.title),
-            ("formatted_search_results", fields.formatted_search_results),
-            ("formatted_files", fields.formatted_files),
+            ("detail_general_metadata", fields.detail_general_metadata),
+            ("https_url", fields.https_url),
+            ("copy_to_clipboard_link", fields.https_url),
+            ("globus_app_link", fields.globus_app_link),
         ],
         "facets": [
             {
-                "name": "Publisher",
-                "field_name": "dc.publisher",
-                "size": 10,
-                "type": "terms",
-            },
-            {
-                "name": "Type",
-                "field_name": "dc.subjects.subject",
-                "size": 10,
-                "type": "terms",
-            },
-            {"name": "Type", "field_name": "dc.formats", "size": 10, "type": "terms"},
-            {
-                "name": "File Size (Bytes)",
-                "type": "numeric_histogram",
-                "field_name": "files.length",
-                "size": 10,
-                "histogram_range": {"low": 5000, "high": 10000},
+                "name": "Location",
+                "field_name": "project_metadata.location",
             },
             {
                 "name": "Dates",
                 "field_name": "dc.dates.date",
                 "type": "date_histogram",
-                "date_interval": "hour",
-            },
-        ],
-    },
-    "perfdata": {
-        "name": "Performance Data",
-        "uuid": "5e83718e-add0-4f06-a00d-577dc78359bc",
-        "fields": [
-            "perfdata",
-            ("remote_file_manifest", get_rfm),
-            (
-                "globus_http_endpoint",
-                lambda x: "b4eab318-fc86-11e7-a5a9-0a448319c2f8.petrel.host",
-            ),
-            ("globus_http_scope", lambda x: "petrel_https_server"),
-            (
-                "globus_http_path",
-                lambda x: x[0]["remote_file_manifest"]["url"].split(":")[2],
-            ),
-        ],
-        "facets": [
-            {
-                "name": "Subject",
-                "field_name": "perfdata.subjects.value",
-                "size": 10,
-                "type": "terms",
+                "date_interval": "year",
             },
             {
-                "name": "Publication Year",
-                "field_name": "perfdata.publication_year.value",
+                "name": "Orbit Groups",
+                "field_name": "project_metadata.orbit_path_name",
             },
             {
-                "name": "File Size (Bytes)",
+                "name": "Orbit",
+                "field_name": "project_metadata.orbit_path_number",
                 "type": "numeric_histogram",
-                "field_name": "remote_file_manifest.length",
-                "size": 10,
-                "histogram_range": {"low": 15000, "high": 30000},
+                "histogram_range": {"low": 0, "high": 240},
+                "filter_type": "range",
+                "size": 40,
             },
             {
-                "name": "Dates",
-                "field_name": "perfdata.dates.value",
-                "type": "date_histogram",
-                "date_interval": "month",
+                "name": "Subjects",
+                "field_name": "dc.subjects.subject",
+            },
+            {
+                "name": "Contributors",
+                "field_name": "dc.contributors.contributorName",
             },
         ],
-        "filter_match": "match-all",
-        "template_override_dir": "perfdata",
-        "test_index": True,
-    },
+        "sort": [{"field_name": "dc.dates.date", "order": "asc"}],
+    }
 }
