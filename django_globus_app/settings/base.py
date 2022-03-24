@@ -37,6 +37,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # This is a general Django setting if views need to redirect to login
 # https://docs.djangoproject.com/en/3.2/ref/settings/#login-url
 LOGIN_URL = "/login/globus"
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
 
 # This dictates which scopes will be requested on each user login
 SOCIAL_AUTH_GLOBUS_SCOPE = [
