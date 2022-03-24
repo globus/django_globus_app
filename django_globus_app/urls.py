@@ -8,9 +8,9 @@ register_custom_index('osn_index', ['terrafusion'])
 urlpatterns = [
     # Provides the basic search portal
     path("", landing_page, name="landing-page"),
-    path("terrafusion:index/", CustomSearch.as_view(), name="search"),
+    path("<osn_index:index>", CustomSearch.as_view(), name="search"),
     path(
-        "terrafusion/search-transfer/",
+        "<osn_index:index>/search-transfer/",
         SearchTransferView.as_view(),
         name="search-transfer",
     ),
