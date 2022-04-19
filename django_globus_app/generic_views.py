@@ -1,10 +1,10 @@
 from django.conf import settings
 from django.contrib import messages
 from django.shortcuts import render
-from django.views.generic import View
-from urllib.parse import urlparse, unquote_plus
+from django.views.generic.base import View
+from urllib.parse import urlparse
 
-from globus_portal_framework.gclients import load_search_client, get_user_groups
+from globus_portal_framework.gclients import load_search_client
 from globus_portal_framework.gsearch import (
     get_template,
     get_search_filters,
@@ -14,7 +14,6 @@ from globus_portal_framework.gsearch import (
     get_index,
     prepare_search_facets,
     get_pagination,
-    get_subject,
 )
 
 import globus_portal_framework.exc

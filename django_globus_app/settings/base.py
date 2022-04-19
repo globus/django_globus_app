@@ -31,8 +31,12 @@ elif environment == "production":
         expected_path = Path(__file__).resolve().parent / "production.py"
         log.warning(f"You should create a file for your secrets at {expected_path}")
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # This is a general Django setting if views need to redirect to login
 # https://docs.djangoproject.com/en/3.2/ref/settings/#login-url
@@ -42,8 +46,15 @@ LOGOUT_REDIRECT_URL = "/"
 
 # This dictates which scopes will be requested on each user login
 SOCIAL_AUTH_GLOBUS_SCOPE = [
+    "openid",
+    "profile",
+    "email",
     "urn:globus:auth:scope:search.api.globus.org:all",
+    "urn:globus:auth:scope:transfer.api.globus.org:all",
 ]
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -58,6 +69,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_globus_app",
     "globus_portal_framework",
+    "rest_framework",
     "social_django",
 ]
 
@@ -111,6 +123,7 @@ WSGI_APPLICATION = "django_globus_app.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+postgres = "n"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
@@ -156,7 +169,6 @@ STATIC_URL = "/static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# Import Globus Search specific settings
 try:
     from .search import *
 except ImportError:
