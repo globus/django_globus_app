@@ -38,7 +38,6 @@ def globus_authentication(function):
             request.session["transfer_token"] = transfer_token
         else:
             return redirect("/login/globus")
-            raise NotAuthenticated()
 
         return function(view_func, request, *args, **kwargs)
 
