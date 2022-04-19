@@ -7,7 +7,6 @@ __pycache__/
 *.so
 
 # Distribution / packaging
-.vscode/
 .Python
 build/
 develop-eggs/
@@ -58,10 +57,8 @@ coverage.xml
 
 # Django stuff:
 *.log
-local*
-db.sqlite3-journal
 db.sqlite3
-static/
+db.sqlite3-journal
 
 # Flask stuff:
 instance/
@@ -91,7 +88,7 @@ ipython_config.py
 #   However, in case of collaboration, if having platform-specific dependencies or dependencies
 #   having no cross-platform support, pipenv may install dependencies that don't work, or not
 #   install all needed dependencies.
-#Pipfile.lock
+# Pipfile.lock
 
 # PEP 582; used by e.g. github.com/David-OConnor/pyflow
 __pypackages__/
@@ -103,15 +100,6 @@ celerybeat.pid
 # SageMath parsed files
 *.sage.py
 
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
 # Spyder project settings
 .spyderproject
 .spyproject
@@ -122,6 +110,15 @@ venv.bak/
 # mkdocs documentation
 /site
 
+# Environments 
+.env 
+.venv 
+env/ 
+venv/ 
+ENV/ 
+env.bak/ 
+venv.bak/ 
+
 # mypy
 .mypy_cache/
 .dmypy.json
@@ -129,3 +126,11 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Django related
+static/
+
+# NPM
+node_modules/
+
+.vscode/

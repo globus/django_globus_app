@@ -1,6 +1,7 @@
-import os
-from urllib.parse import urlsplit, urlunsplit, urlunparse, urlencode
 from dateutil.parser import isoparse
+from urllib.parse import urlsplit, urlunsplit, urlunparse, urlencode
+
+import os
 
 
 def title(result):

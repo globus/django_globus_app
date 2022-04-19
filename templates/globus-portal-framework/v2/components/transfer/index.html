@@ -1,0 +1,23 @@
+{% extends "globus-portal-framework/v2/base.html" %}
+
+{% load static %}
+{% load index_template %}
+
+{%block title%}Transfer{%endblock%}
+
+{% block extraheaders %}
+<link rel="stylesheet" type="text/css" href='<%= htmlWebpackPlugin.files.css %>'></script>
+<link rel="stylesheet" type="text/css" href="{% static 'css/search.css' %}" />
+{% endblock extraheaders %}
+
+{% block breadcrumb_items %}
+<li class="breadcrumb-item"><a class="h5" href="{% url 'index-selection' %}">Django Globus Portal Framework</a></li>
+<li class="breadcrumb-item active"><a class="h5">{{project_info.title}} Transfer</a></li>
+{% endblock %}
+
+{%block body%}
+<div id="transfer">
+    <!-- React components are mounted here -->
+</div>
+<script src='<%= htmlWebpackPlugin.files.js %>'></script>
+{% endblock %}

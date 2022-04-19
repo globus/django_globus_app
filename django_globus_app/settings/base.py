@@ -12,27 +12,14 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 
 import logging
-import os
 
 log = logging.getLogger(__name__)
 
-# Pull in environment specific settings
-environment = os.environ.get("ENVIRONMENT", "local")
-if environment == "local":
-    try:
-        from .local import *
-    except ImportError:
-        expected_path = Path(__file__).resolve().parent / "local.py"
-        log.warning(f"You should create a file for your secrets at {expected_path}")
-elif environment == "production":
-    try:
-        from .production import *
-    except ImportError:
-        expected_path = Path(__file__).resolve().parent / "production.py"
-        log.warning(f"You should create a file for your secrets at {expected_path}")
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # This is a general Django setting if views need to redirect to login
 # https://docs.djangoproject.com/en/3.2/ref/settings/#login-url
@@ -42,8 +29,15 @@ LOGOUT_REDIRECT_URL = "/"
 
 # This dictates which scopes will be requested on each user login
 SOCIAL_AUTH_GLOBUS_SCOPE = [
+    "openid",
+    "profile",
+    "email",
     "urn:globus:auth:scope:search.api.globus.org:all",
+    "urn:globus:auth:scope:transfer.api.globus.org:all",
 ]
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -56,14 +50,13 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "django_globus_app",
     "globus_portal_framework",
+    "rest_framework",
     "social_django",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -111,6 +104,7 @@ WSGI_APPLICATION = "django_globus_app.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+postgres = "n"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
@@ -146,7 +140,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 STATICFILES_DIRS = [BASE_DIR / "staticfiles"]
 STATIC_ROOT = BASE_DIR / "static"
 STATIC_URL = "/static/"
@@ -156,9 +149,14 @@ STATIC_URL = "/static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# Import Globus Search specific settings
 try:
     from .search import *
 except ImportError:
     expected_path = Path(__file__).resolve().parent / "search.py"
     log.warning(f"You should create a file for your search settings at {expected_path}")
+
+try:
+    from .local import *
+except ImportError:
+    expected_path = Path(__file__).resolve().parent / "local.py"
+    log.warning(f"You should create a file for your secrets at {expected_path}")

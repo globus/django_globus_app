@@ -1,9 +1,10 @@
+from django_globus_app.mixins import SliderFacetsMixin
+from django_globus_app.generic_views import SearchView
+
 from django.shortcuts import render
+from django.views.generic.base import TemplateView
 
 import logging
-
-from django_globus_app.mixins import HelperPageMixin, SliderFacetsMixin
-from django_globus_app.generic_views import SearchView
 
 log = logging.getLogger(__name__)
 
@@ -18,3 +19,7 @@ class CustomSearch(SliderFacetsMixin, SearchView):
     """Search with Slider Facets enabled."""
 
     pass
+
+
+class TransferView(TemplateView):
+    template_name = "globus-portal-framework/v2/components/transfer/home.html"

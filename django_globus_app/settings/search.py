@@ -1,6 +1,5 @@
 from django_globus_app import fields
 
-
 def get_rfm(search_result):
     if search_result[0].get("remote_file_manifest"):
         return [search_result[0]["remote_file_manifest"]]

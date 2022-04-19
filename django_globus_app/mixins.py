@@ -1,11 +1,13 @@
+from django_globus_app.generic_views import SearchView
+
 from django.middleware import csrf
 from django.urls import reverse
 from django.views.generic import View
-from urllib.parse import urlunparse, urlparse, urlencode
 
 from globus_portal_framework.gclients import load_transfer_client
 from globus_portal_framework.gsearch import get_index
-from django_globus_app.generic_views import SearchView
+
+from urllib.parse import urlunparse, urlparse, urlencode
 
 import logging
 
