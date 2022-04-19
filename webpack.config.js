@@ -7,13 +7,10 @@ const webpack = require('webpack');
 const afterCompilePlugin = {
   apply: (compiler) => {
     compiler.hooks.afterEmit.tap('AfterEmitPlugin', (compilation) => {
-      exec(
-        'python manage.py collectstatic --no-input',
-        (err, stdout, stderr) => {
-          if (stdout) process.stdout.write(stdout);
-          if (stderr) process.stderr.write(stderr);
-        }
-      );
+      exec('python manage.py collectstatic --no-input', (err, stdout, stderr) => {
+        if (stdout) process.stdout.write(stdout);
+        if (stderr) process.stderr.write(stderr);
+      });
     });
   },
 };
@@ -23,7 +20,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 let plugins = [
   new HtmlWebpackPlugin({
-    inject: 'false',
+    inject: false,
     filename: path.resolve(__dirname, 'templates/globus-portal-framework/v2/components/transfer/home.html'),
     template: path.resolve(__dirname, 'templates/globus-portal-framework/v2/components/transfer/index.html'),
   }),

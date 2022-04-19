@@ -12,8 +12,25 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 
 import logging
+import os
 
 log = logging.getLogger(__name__)
+
+# Pull in environment specific settings
+environment = os.environ.get("ENVIRONMENT", "local")
+if environment == "local":
+    try:
+        from .local import *
+    except ImportError:
+        expected_path = Path(__file__).resolve().parent / "local.py"
+        log.warning(f"You should create a file for your secrets at {expected_path}")
+elif environment == "production":
+    try:
+        from .production import *
+    except ImportError:
+        expected_path = Path(__file__).resolve().parent / "production.py"
+        log.warning(f"You should create a file for your secrets at {expected_path}")
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -50,6 +67,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django_globus_app",
     "globus_portal_framework",
     "rest_framework",
     "social_django",
@@ -57,6 +75,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -140,6 +159,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 STATICFILES_DIRS = [BASE_DIR / "staticfiles"]
 STATIC_ROOT = BASE_DIR / "static"
 STATIC_URL = "/static/"
@@ -154,9 +174,3 @@ try:
 except ImportError:
     expected_path = Path(__file__).resolve().parent / "search.py"
     log.warning(f"You should create a file for your search settings at {expected_path}")
-
-try:
-    from .local import *
-except ImportError:
-    expected_path = Path(__file__).resolve().parent / "local.py"
-    log.warning(f"You should create a file for your secrets at {expected_path}")
